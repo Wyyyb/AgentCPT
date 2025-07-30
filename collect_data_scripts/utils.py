@@ -3,15 +3,6 @@ import glob
 
 
 def get_all_jsonl_files(path_string):
-    """
-    输入一个路径字符串，返回所有子jsonl文件路径的列表
-
-    参数:
-        path_string: 包含路径的字符串，可以是多个路径（用英文逗号分隔），支持通配符
-
-    返回:
-        所有jsonl文件的完整路径列表
-    """
     all_jsonl_files = []
 
     # 按英文逗号分割路径
