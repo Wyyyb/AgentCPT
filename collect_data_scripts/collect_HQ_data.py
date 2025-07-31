@@ -33,6 +33,9 @@ def load_data_map():
                                       "hq_file_path_list": hq_file_path_list,
                                       "total_line_num": total_line_num,
                                       "hq_line_num": hq_line_num}
+    print(dataset_name)
+    print("total_line_num", total_line_num)
+    print("hq_line_num", hq_line_num)
     return data_map
 
 
