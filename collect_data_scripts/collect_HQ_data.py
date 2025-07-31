@@ -1,6 +1,7 @@
 import os
 from utils import *
 import json
+from tqdm import tqdm
 
 
 def collect_hq_data_path():
@@ -12,7 +13,7 @@ def load_data_map():
     data_map_path = "m2_pt_data_map_0731.txt"
     data_map = {}
     with open(data_map_path) as f:
-        for line in f:
+        for line in tqdm(f):
             parts = line.strip().split("\t")
             dataset_name = parts[0]
             dataset_path_str = parts[1]
