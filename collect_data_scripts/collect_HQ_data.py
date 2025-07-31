@@ -37,7 +37,7 @@ def filter_hq_path(file_path_list):
         for pattern in exclude_patterns:
             if "_" + pattern in file_path:
                 flag = 1
-                print("detect exclude_patterns", file_path)
+                # print("detect exclude_patterns", file_path)
                 break
         if flag == 0:
             res.append(file_path)
