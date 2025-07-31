@@ -33,9 +33,12 @@ def filter_hq_path(file_path_list):
     res = []
     exclude_patterns = {"MH", "ML", "LQ", "ELQ"}
     for file_path in file_path_list:
+        flag = 0
         for pattern in exclude_patterns:
             if "_" + pattern in file_path:
-                continue
+                flag = 1
+                break
+        if flag == 0:
             res.append(file_path)
     return res
 
