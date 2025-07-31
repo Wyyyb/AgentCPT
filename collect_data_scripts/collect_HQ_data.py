@@ -59,8 +59,9 @@ def sta_collect_data(res):
         hq_file_num = str(v["hq_file_num"])
         total_line_num = str(v["total_line_num"])
         hq_line_num = str(v["hq_line_num"])
-        sta_res.append(f"{dataset_name}\t{total_file_num}\t{hq_file_num}\t{total_line_num}\t{hq_line_num}\n")
-
+        # sta_res.append(f"{dataset_name}\t{total_file_num}\t{hq_file_num}\t{total_line_num}\t{hq_line_num}\n")
+        sta_res.append(
+            "{}\t{}\t{}\t{}\t{}\n".format(dataset_name, total_file_num, hq_file_num, total_line_num, hq_line_num))
     with open("../local_data/test_data_0731/collect_sta_data_0731.txt", "w") as fo:
         fo.write("".join(sta_res))
 
