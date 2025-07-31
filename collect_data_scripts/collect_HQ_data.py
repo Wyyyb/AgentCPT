@@ -1,5 +1,5 @@
 import os
-from collect_data_scripts.utils import *
+from utils import *
 import json
 
 
