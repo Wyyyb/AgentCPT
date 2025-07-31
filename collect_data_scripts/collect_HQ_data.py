@@ -1,7 +1,6 @@
 import os
 from utils import *
 import json
-from tqdm import tqdm
 
 
 def collect_hq_data_path():
