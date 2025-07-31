@@ -17,9 +17,9 @@ def load_data_map():
             dataset_name = parts[0]
             dataset_path_str = parts[1]
             file_path_list = get_all_jsonl_files(dataset_path_str)
-            check_duplicate_list(file_path_list)
+            if check_duplicate_list(file_path_list):
+                print("Duplicate", dataset_name)
             hq_file_path_list = filter_hq_path(file_path_list)
-            check_duplicate_list(hq_file_path_list)
             total_line_num = 0
             hq_line_num = 0
             for each in file_path_list:
@@ -38,7 +38,7 @@ def load_data_map():
 
 def filter_hq_path(file_path_list):
     res = []
-    exclude_patterns = {"MH", "ML", "LQ", "ELQ"}
+    exclude_patterns = {"MH", "ML", "LQ", "ELQ", "low_quality"}
     for file_path in file_path_list:
         flag = 0
         for pattern in exclude_patterns:
