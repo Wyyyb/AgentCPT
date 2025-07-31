@@ -1,5 +1,6 @@
 import os
 import glob
+import subprocess
 
 
 def get_all_jsonl_files(path_string):
@@ -33,6 +34,11 @@ def get_all_jsonl_files(path_string):
 def count_lines_jsonl(file_path):
     with open(file_path, 'r') as file:
         return sum(1 for _ in file)
+
+
+def count_lines_wc(file_path):
+    result = subprocess.run(['wc', '-l', file_path], capture_output=True, text=True)
+    return int(result.stdout.split()[0])
 
 
 def test():

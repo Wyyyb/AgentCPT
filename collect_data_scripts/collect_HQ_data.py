@@ -23,9 +23,11 @@ def load_data_map():
             total_line_num = 0
             hq_line_num = 0
             for each in file_path_list:
-                total_line_num += count_lines_jsonl(each)
+                # total_line_num += count_lines_jsonl(each)
+                total_line_num += count_lines_wc(each)
             for each in hq_file_path_list:
-                hq_line_num += count_lines_jsonl(each)
+                # hq_line_num += count_lines_jsonl(each)
+                hq_line_num += count_lines_wc(each)
             data_map[dataset_name] = {"dataset_path_str": dataset_path_str,
                                       "total_file_num": len(file_path_list),
                                       "hq_file_num": len(hq_file_path_list),
