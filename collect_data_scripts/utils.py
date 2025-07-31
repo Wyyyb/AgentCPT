@@ -47,6 +47,7 @@ def check_duplicate_list(input_list):
     for each in input_list:
         if each not in temp_list:
             temp_list.append(each)
+            continue
         if each in input_list:
             # print("Duplicate:", each)
             return True
