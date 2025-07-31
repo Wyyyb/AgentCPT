@@ -1,0 +1,8 @@
+cd /minimax-dialogue/workspace/users/feishan
+
+/minimax-dialogue/workspace/users/feishan/AgentCPT
+
+/minimax-dialogue/workspace/users/feishan/cpt_data/data_0731
+
+
+

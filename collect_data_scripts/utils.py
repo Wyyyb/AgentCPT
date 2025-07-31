@@ -29,10 +29,13 @@ def get_all_jsonl_files(path_string):
 
     return all_jsonl_files
 
-
-if __name__ == '__main__':
+def test():
     test_str = "/minimax-dialogue/data/users/beihai/M2_data/sources/pdf_hq/reward_filter/output/stem/EHQ/split_*/*/*.jsonl,/minimax-dialogue/data/users/beihai/M2_data/sources/pdf_lq/reward_filter/output/stem/EHQ/split_*/*/*.jsonl,/minimax-dialogue/data/users/beihai/M2_data/sources/institution_book/reward_filter/output/stem/EHQ/split_*/*/*.jsonl"
     res = get_all_jsonl_files(test_str)
     for each in res:
         print(each)
+
+
+if __name__ == '__main__':
+    test()
 
