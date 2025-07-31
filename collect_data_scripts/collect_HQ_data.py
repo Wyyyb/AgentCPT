@@ -40,7 +40,7 @@ def filter_hq_path(file_path_list):
 
 def test():
     res = load_data_map()
-    with open("local_data/test_data_0731/collect_sta_data_0731.json", "w") as fo:
+    with open("../local_data/test_data_0731/collect_sta_data_0731.json", "w") as fo:
         fo.write(json.dumps(res, indent=2))
 
 
