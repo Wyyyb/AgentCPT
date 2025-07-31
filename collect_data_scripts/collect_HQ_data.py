@@ -12,7 +12,7 @@ def load_data_map():
     data_map_path = "m2_pt_data_map_0731.txt"
     data_map = {}
     with open(data_map_path) as f:
-        for line in tqdm(f):
+        for line in f:
             parts = line.strip().split("\t")
             dataset_name = parts[0]
             dataset_path_str = parts[1]
@@ -23,6 +23,9 @@ def load_data_map():
                                       "hq_file_num": len(hq_file_path_list),
                                       "file_path_list": file_path_list,
                                       "hq_file_path_list": hq_file_path_list}
+            print("dataset_name", dataset_name)
+            print("total_file_num", len(file_path_list))
+            print("hq_file_num", len(hq_file_path_list))
     return data_map
 
 
