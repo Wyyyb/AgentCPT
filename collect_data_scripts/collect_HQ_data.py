@@ -17,15 +17,22 @@ def load_data_map():
             dataset_name = parts[0]
             dataset_path_str = parts[1]
             file_path_list = get_all_jsonl_files(dataset_path_str)
+            check_duplicate_list(file_path_list)
             hq_file_path_list = filter_hq_path(file_path_list)
+            check_duplicate_list(hq_file_path_list)
+            total_line_num = 0
+            hq_line_num = 0
+            for each in file_path_list:
+                total_line_num += count_lines_jsonl(each)
+            for each in hq_file_path_list:
+                hq_line_num += count_lines_jsonl(each)
             data_map[dataset_name] = {"dataset_path_str": dataset_path_str,
                                       "total_file_num": len(file_path_list),
                                       "hq_file_num": len(hq_file_path_list),
                                       "file_path_list": file_path_list,
-                                      "hq_file_path_list": hq_file_path_list}
-            print("dataset_name", dataset_name)
-            print("total_file_num", len(file_path_list))
-            print("hq_file_num", len(hq_file_path_list))
+                                      "hq_file_path_list": hq_file_path_list,
+                                      "total_line_num": total_line_num,
+                                      "hq_line_num": hq_line_num}
     return data_map
 
 
@@ -44,9 +51,20 @@ def filter_hq_path(file_path_list):
     return res
 
 
+def sta_collect_data(res):
+    sta_res = ""
+    for k, v in res.items():
+        dataset_name = k
+        sta_res += f"{dataset_name}\t{v["total_file_num"]}\t{v["hq_file_num"]}\t{v["total_line_num"]}\t{v["hq_line_num"]}\n"
+
+    with open("../local_data/test_data_0731/collect_sta_data_0731.txt", "w") as fo:
+        fo.write(sta_res)
+
+
 def test():
     res = load_data_map()
-    with open("../local_data/test_data_0731/collect_sta_data_0731.json", "w") as fo:
+    sta_collect_data(res)
+    with open("../local_data/test_data_0731/collect_sta_data_0731_full.json", "w") as fo:
         fo.write(json.dumps(res, indent=2))
 
 
