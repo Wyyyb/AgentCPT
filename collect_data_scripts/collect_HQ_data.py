@@ -55,7 +55,11 @@ def sta_collect_data(res):
     sta_res = ""
     for k, v in res.items():
         dataset_name = k
-        sta_res += f"{dataset_name}\t{v["total_file_num"]}\t{v["hq_file_num"]}\t{v["total_line_num"]}\t{v["hq_line_num"]}\n"
+        total_file_num = v["total_file_num"]
+        hq_file_num = v["hq_file_num"]
+        total_line_num = v["total_line_num"]
+        hq_line_num = v["hq_line_num"]
+        sta_res += f"{dataset_name}\t{total_file_num}\t{hq_file_num}\t{total_line_num}\t{hq_line_num}\n"
 
     with open("../local_data/test_data_0731/collect_sta_data_0731.txt", "w") as fo:
         fo.write(sta_res)
