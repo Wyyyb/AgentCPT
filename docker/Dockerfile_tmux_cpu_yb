@@ -1,4 +1,5 @@
-FROM harbor.xaminim.com/minimax-dialogue/datatrove:2025-08-01-b9af01dc
+# FROM harbor.xaminim.com/minimax-dialogue/datatrove:2025-08-01-b9af01dc
+FROM harbor.xaminim.com/minimax-dialogue/sweswe:3d7ae60_2
 # FROM harbor.xaminim.com/minimax-dialogue/crl:0.1
 
 ENV http_proxy=http://pac-internal.xaminim.com:3129
