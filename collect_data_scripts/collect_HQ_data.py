@@ -23,24 +23,25 @@ def load_data_map():
             hq_file_path_list = filter_hq_path(file_path_list)
             total_line_num = 0
             hq_line_num = 0
-            for each in tqdm(file_path_list):
-                # total_line_num += count_lines_jsonl(each)
-                total_line_num += count_lines_wc(each)
-                if each in hq_file_path_list:
-                    # hq_line_num += count_lines_jsonl(each)
-                    hq_line_num += count_lines_wc(each)
+            # for each in tqdm(file_path_list):
+            #     # total_line_num += count_lines_jsonl(each)
+            #     total_line_num += count_lines_wc(each)
+            #     if each in hq_file_path_list:
+            #         # hq_line_num += count_lines_jsonl(each)
+            #         hq_line_num += count_lines_wc(each)
             print(dataset_name)
             print("total_file_num", len(file_path_list))
             print("hq_file_num", len(hq_file_path_list))
-            print("total_line_num", total_line_num)
-            print("hq_line_num", hq_line_num)
+            # print("total_line_num", total_line_num)
+            # print("hq_line_num", hq_line_num)
             data_map[dataset_name] = {"dataset_path_str": dataset_path_str,
                                       "total_file_num": len(file_path_list),
                                       "hq_file_num": len(hq_file_path_list),
                                       "file_path_list": file_path_list,
                                       "hq_file_path_list": hq_file_path_list,
-                                      "total_line_num": total_line_num,
-                                      "hq_line_num": hq_line_num}
+                                      # "total_line_num": total_line_num,
+                                      # "hq_line_num": hq_line_num
+                                      }
     return data_map
 
 
@@ -65,11 +66,13 @@ def sta_collect_data(res):
         dataset_name = k
         total_file_num = str(v["total_file_num"])
         hq_file_num = str(v["hq_file_num"])
-        total_line_num = str(v["total_line_num"])
-        hq_line_num = str(v["hq_line_num"])
+        # total_line_num = str(v["total_line_num"])
+        # hq_line_num = str(v["hq_line_num"])
         # sta_res.append(f"{dataset_name}\t{total_file_num}\t{hq_file_num}\t{total_line_num}\t{hq_line_num}\n")
+        # sta_res.append(
+        #     "{}\t{}\t{}\t{}\t{}\n".format(dataset_name, total_file_num, hq_file_num, total_line_num, hq_line_num))
         sta_res.append(
-            "{}\t{}\t{}\t{}\t{}\n".format(dataset_name, total_file_num, hq_file_num, total_line_num, hq_line_num))
+            "{}\t{}\t{}\n".format(dataset_name, total_file_num, hq_file_num))
     with open("../local_data/test_data_0731/collect_sta_data_0731.txt", "w") as fo:
         fo.write("".join(sta_res))
 
