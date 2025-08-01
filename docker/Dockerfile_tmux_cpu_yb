@@ -1,0 +1,19 @@
+FROM harbor.xaminim.com/minimax-dialogue/datatrove:2025-08-01-b9af01dc
+# FROM harbor.xaminim.com/minimax-dialogue/crl:0.1
+
+ENV http_proxy=http://pac-internal.xaminim.com:3129
+ENV https_proxy=http://pac-internal.xaminim.com:3129
+ENV no_proxy=localhost,127.0.0.1,algeng.xaminim.com,10.0.0.0/8
+
+# RUN pip install wandb
+# RUN pip install -U vllm tensordict
+#RUN sudo apt update & sudo apt install tmux
+RUN apt-get update && apt-get install -y tmux
+#RUN cd ../r2e-gym && pip install -e .
+
+#WORKDIR /root/code
+#
+#RUN rm -rf /root/code/verl
+#COPY . /root/code/verl
+
+
