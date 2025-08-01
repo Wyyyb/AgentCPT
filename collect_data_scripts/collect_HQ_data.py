@@ -1,6 +1,7 @@
 import os
 from utils import *
 import json
+from tqdm import tqdm
 
 
 def collect_hq_data_path():
@@ -12,7 +13,7 @@ def load_data_map():
     data_map_path = "m2_pt_data_map_0731.txt"
     data_map = {}
     with open(data_map_path) as f:
-        for line in f:
+        for line in tqdm(f):
             parts = line.strip().split("\t")
             dataset_name = parts[0]
             dataset_path_str = parts[1]
@@ -22,12 +23,17 @@ def load_data_map():
             hq_file_path_list = filter_hq_path(file_path_list)
             total_line_num = 0
             hq_line_num = 0
-            for each in file_path_list:
+            for each in tqdm(file_path_list):
                 # total_line_num += count_lines_jsonl(each)
                 total_line_num += count_lines_wc(each)
-            for each in hq_file_path_list:
-                # hq_line_num += count_lines_jsonl(each)
-                hq_line_num += count_lines_wc(each)
+                if each in hq_file_path_list:
+                    # hq_line_num += count_lines_jsonl(each)
+                    hq_line_num += count_lines_wc(each)
+            print(dataset_name)
+            print("total_file_num", len(file_path_list))
+            print("hq_file_num", len(hq_file_path_list))
+            print("total_line_num", total_line_num)
+            print("hq_line_num", hq_line_num)
             data_map[dataset_name] = {"dataset_path_str": dataset_path_str,
                                       "total_file_num": len(file_path_list),
                                       "hq_file_num": len(hq_file_path_list),
@@ -35,9 +41,6 @@ def load_data_map():
                                       "hq_file_path_list": hq_file_path_list,
                                       "total_line_num": total_line_num,
                                       "hq_line_num": hq_line_num}
-    print(dataset_name)
-    print("total_line_num", total_line_num)
-    print("hq_line_num", hq_line_num)
     return data_map
 
 
