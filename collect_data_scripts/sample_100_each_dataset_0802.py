@@ -9,8 +9,8 @@ def sample_100_each_dataset():
         data_map = json.load(fi)
     for k, v in data_map.items():
         print("dataset name", k)
-        if k == "M1_issues":
-            break
+        # if k == "M1_issues":
+        #     break
         hq_file_path_list = v["hq_file_path_list"]
         if len(hq_file_path_list) < 100:
             continue
@@ -21,12 +21,12 @@ def sample_100_each_dataset():
                 curr["agent_cpt_dict"] = {"file_path": hq_file_path_list[0],
                                           "dataset_name": k}
                 res_data.append(curr)
-    print("saving")
-    try:
-        with open("../local_data/test_data_0731/sample_100_each_data.json", "w") as fo:
-            fo.write(json.dumps(res_data, indent=4))
-    except Exception as e:
-        print("Exception", e)
+        print("saving")
+        try:
+            with open("../local_data/test_data_0731/sample_100_each_data.json", "w") as fo:
+                fo.write(json.dumps(res_data, indent=4))
+        except Exception as e:
+            print("Exception", e)
 
 
 if __name__ == '__main__':
