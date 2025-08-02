@@ -16,17 +16,21 @@ def sample_100_each_dataset():
             continue
         random.shuffle(hq_file_path_list)
         with open(hq_file_path_list[0], "r") as fi:
+            count = 0
             for line in fi.readlines():
                 curr = json.loads(line)
                 curr["agent_cpt_dict"] = {"file_path": hq_file_path_list[0],
                                           "dataset_name": k}
                 res_data.append(curr)
-        print("saving")
-        try:
-            with open("../local_data/test_data_0731/sample_100_each_data.json", "w") as fo:
-                fo.write(json.dumps(res_data, indent=4))
-        except Exception as e:
-            print("Exception", e)
+                count += 1
+                if count >= 100:
+                    break
+    print("saving")
+    try:
+        with open("../local_data/test_data_0731/sample_100_each_data.json", "w") as fo:
+            fo.write(json.dumps(res_data, indent=4))
+    except Exception as e:
+        print("Exception", e)
 
 
 if __name__ == '__main__':
