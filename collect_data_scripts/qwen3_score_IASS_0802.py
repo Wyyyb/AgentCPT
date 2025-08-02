@@ -172,10 +172,10 @@ def batch_inference(llm, sampling_params, prompts, data):
     outputs = llm.generate(filtered_messages, sampling_params)
 
     # Print the outputs.
-    for output in outputs[:10]:
-        prompt = output.prompt
-        generated_text = output.outputs[0].text
-        print(f"Prompt: {prompt!r}, \n\nGenerated text: {generated_text!r}")
+    # for output in outputs[:10]:
+    #     prompt = output.prompt
+    #     generated_text = output.outputs[0].text
+    #     print(f"Prompt: {prompt!r}, \n\nGenerated text: {generated_text!r}")
 
     print("len(filtered_prompts):", len(filtered_messages))
     print("len(outputs):", len(outputs))
@@ -204,7 +204,7 @@ def extract_score(output):
     try:
         score = json.loads(content[1])
     except json.decoder.JSONDecodeError:
-        print("json.decoder.JSONDecodeError", content)
+        print("json.decoder.JSONDecodeError", content[1])
         score = None
     except Exception as e:
         print("Exception", e)
@@ -215,12 +215,17 @@ def extract_score(output):
 def main():
     llm, sampling_params, prompts, data = load_model_and_data()
     outputs, filtered_data, filtered_indices = batch_inference(llm, sampling_params, prompts, data)
+    format_parse_count = 0
 
     if outputs:
         # 只处理成功生成的结果
         for i, output in enumerate(outputs):
             filtered_data[i]["agent_cpt_dict"]["IASS_Content"] = output.outputs[0].text
-            filtered_data[i]["agent_cpt_dict"]["IASS_Score"] = extract_score(output.outputs[0].text)
+            score = extract_score(output.outputs[0].text)
+            filtered_data[i]["agent_cpt_dict"]["IASS_Score"] = score
+            if score is None:
+                format_parse_count += 1
+        print("format_parse_count", format_parse_count)
 
         with open("../local_data/test_data_0731/sample_100_each_data_with_IASS.json", "w") as f:
             f.write(json.dumps(filtered_data, indent=4))
