@@ -1,5 +1,6 @@
 import json
 from vllm import LLM, SamplingParams
+from transformers import AutoTokenizer
 
 
 prompt_template = """## Objective:
@@ -122,15 +123,23 @@ Evaluate dynamic pivots to disruptions (e.g., "Plan A failed due to rain; adapt 
 
 def batch_inference(llm, sampling_params, prompts):
     messages = []
+    tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen3-8B")
     for prompt in prompts:
-        messages.append([{"role": "user", "content": prompt}])
+        text = tokenizer.apply_chat_template(
+            [{"role": "user", "content": prompt}],
+            tokenize=False,
+            add_generation_prompt=True,
+            enable_thinking=True,  # Set to False to strictly disable thinking
+        )
+        messages.append(text)
 
     # Generate outputs
-    outputs = llm.chat(
-        messages,
-        sampling_params,
-        chat_template_kwargs={"enable_thinking": True},  # Set to False to strictly disable thinking
-    )
+    # outputs = llm.chat(
+    #     messages,
+    #     sampling_params,
+    #     chat_template_kwargs={"enable_thinking": True},  # Set to False to strictly disable thinking
+    # )
+    outputs = llm.generate(messages, sampling_params)
 
     # Print the outputs.
     for output in outputs[:10]:
