@@ -1,0 +1,1 @@
+huggingface-cli upload ubowang/agent_cpt_0802 sample_100_each_data.json --repo-type dataset
