@@ -10,6 +10,8 @@ def sample_100_each_dataset():
     for k, v in data_map.items():
         print("dataset name", k)
         hq_file_path_list = v["hq_file_path_list"]
+        if len(hq_file_path_list) < 100:
+            continue
         random.shuffle(hq_file_path_list)
         with open(hq_file_path_list[0], "r") as fi:
             for line in fi.readlines():
