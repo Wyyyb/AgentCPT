@@ -138,8 +138,12 @@ def batch_inference(llm, sampling_params, prompts):
         generated_text = output.outputs[0].text
         print(f"Prompt: {prompt!r}, \n\nGenerated text: {generated_text!r}")
 
+    print("len(prompts):", len(prompts))
+    print("len(outputs):", len(outputs))
+    return outputs
 
-def load_model():
+
+def load_model_and_data():
     llm = LLM(model="Qwen/Qwen3-8B")
     sampling_params = SamplingParams(temperature=0.6, top_p=0.95, top_k=20, max_tokens=40000)
 
@@ -152,12 +156,17 @@ def load_model():
         text = each["data"][0]["text"]
         prompt = prompt_template.replace("A `given_text` for evaluation.", text)
         prompts.append(prompt)
-    return llm, sampling_params, prompts
+    return llm, sampling_params, prompts, data
 
 
 def main():
-    llm, sampling_params, prompts = load_model()
-    batch_inference(llm, sampling_params, prompts)
+    llm, sampling_params, prompts, data = load_model_and_data()
+    outputs = batch_inference(llm, sampling_params, prompts)
+    for i, each in enumerate(data):
+        data["agent_cpt_dict"]["IASS_Score"] = outputs[i]
+    with open("../local_data/test_data_0731/sample_100_each_data_with_IASS.json", "w") as f:
+        f.write(json.dumps(data, indent=4))
+
 
 
 if __name__ == "__main__":
