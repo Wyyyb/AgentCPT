@@ -191,7 +191,7 @@ def load_model_and_data():
         data = json.load(f)
 
     prompts = []
-    data = data[:100]
+    # data = data[:100]
     for each in data:
         text = each["data"][0]["text"]
         prompt = prompt_template.replace("A `given_text` for evaluation.", text)
@@ -204,10 +204,10 @@ def extract_score(output):
     try:
         score = json.loads(content[1])
     except json.decoder.JSONDecodeError:
-        print("json.decoder.JSONDecodeError", content[1])
+        # print("json.decoder.JSONDecodeError", content[1])
         score = None
     except Exception as e:
-        print("Exception", e)
+        # print("Exception", e)
         score = None
     return score
 
