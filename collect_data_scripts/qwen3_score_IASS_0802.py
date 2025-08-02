@@ -199,6 +199,19 @@ def load_model_and_data():
     return llm, sampling_params, prompts, data
 
 
+def extract_score(output):
+    content = output.split("</think>\n\n")
+    try:
+        score = json.loads(content[1])
+    except json.decoder.JSONDecodeError:
+        print("json.decoder.JSONDecodeError", content)
+        score = None
+    except Exception as e:
+        print("Exception", e)
+        score = None
+    return score
+
+
 def main():
     llm, sampling_params, prompts, data = load_model_and_data()
     outputs, filtered_data, filtered_indices = batch_inference(llm, sampling_params, prompts, data)
@@ -206,7 +219,8 @@ def main():
     if outputs:
         # 只处理成功生成的结果
         for i, output in enumerate(outputs):
-            filtered_data[i]["agent_cpt_dict"]["IASS_Score"] = output.outputs[0].text
+            filtered_data[i]["agent_cpt_dict"]["IASS_Content"] = output.outputs[0].text
+            filtered_data[i]["agent_cpt_dict"]["IASS_Score"] = extract_score(output.outputs[0].text)
 
         with open("../local_data/test_data_0731/sample_100_each_data_with_IASS.json", "w") as f:
             f.write(json.dumps(filtered_data, indent=4))

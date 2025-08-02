@@ -5,6 +5,9 @@ cd /minimax-dialogue/workspace/users/feishan
 /minimax-dialogue/workspace/users/feishan/cpt_data/data_0731
 
 
+roshan:
+/data/minimax-dialogue/feishan/AgentCPT
+
 
 export proxy="http://pac-internal.xaminim.com:3129" && export https_proxy=$proxy && export http_proxy=$proxy && export ftp_proxy=$proxy && export no_proxy="localhost,[127.0.0.1](http://127.0.0.1/),*.xaminim.com,10.0.0.0/8"
 
