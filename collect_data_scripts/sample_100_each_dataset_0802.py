@@ -26,8 +26,9 @@ def sample_100_each_dataset():
                 if count >= 100:
                     break
     print("saving")
+    print("len(res_data)", len(res_data))
     try:
-        with open("../local_data/test_data_0731/sample_100_each_data.json", "w") as fo:
+        with open("../local_data/test_data_0731/sample_100_each_data_test.json", "w") as fo:
             fo.write(json.dumps(res_data, indent=4))
     except Exception as e:
         print("Exception", e)
