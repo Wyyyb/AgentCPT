@@ -121,25 +121,55 @@ Evaluate dynamic pivots to disruptions (e.g., "Plan A failed due to rain; adapt 
 """
 
 
-def batch_inference(llm, sampling_params, prompts):
+def filter_long_prompts(tokenizer, messages, prompts_data, max_tokens=32000):
+    """过滤掉超过指定token数量的prompts"""
+    filtered_messages = []
+    filtered_indices = []
+
+    for i, message in enumerate(messages):
+        # 计算token数量
+        tokens = tokenizer.encode(message)
+        token_count = len(tokens)
+
+        if token_count <= max_tokens:
+            filtered_messages.append(message)
+            filtered_indices.append(i)
+        else:
+            print(f"过滤掉第 {i} 个prompt，token数量: {token_count}")
+
+    # 同时过滤对应的原始数据
+    filtered_data = [prompts_data[i] for i in filtered_indices]
+
+    print(f"原始prompts数量: {len(messages)}")
+    print(f"过滤后prompts数量: {len(filtered_messages)}")
+
+    return filtered_messages, filtered_data, filtered_indices
+
+
+def batch_inference(llm, sampling_params, prompts, data):
     messages = []
     tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen3-8B")
+
     for prompt in prompts:
         text = tokenizer.apply_chat_template(
             [{"role": "user", "content": prompt}],
             tokenize=False,
             add_generation_prompt=True,
-            enable_thinking=True,  # Set to False to strictly disable thinking
+            enable_thinking=True,
         )
         messages.append(text)
 
+    # 过滤超长prompts
+    filtered_messages, filtered_data, filtered_indices = filter_long_prompts(
+        tokenizer, messages, data, max_tokens=32000
+    )
+
+    if not filtered_messages:
+        print("没有符合条件的prompts")
+        return [], filtered_data, filtered_indices
+
     # Generate outputs
-    # outputs = llm.chat(
-    #     messages,
-    #     sampling_params,
-    #     chat_template_kwargs={"enable_thinking": True},  # Set to False to strictly disable thinking
-    # )
-    outputs = llm.generate(messages, sampling_params)
+    outputs = llm.generate(filtered_messages, sampling_params)
 
     # Print the outputs.
     for output in outputs[:10]:
@@ -147,9 +177,10 @@ def batch_inference(llm, sampling_params, prompts):
         generated_text = output.outputs[0].text
         print(f"Prompt: {prompt!r}, \n\nGenerated text: {generated_text!r}")
 
-    print("len(prompts):", len(prompts))
+    print("len(filtered_prompts):", len(filtered_messages))
     print("len(outputs):", len(outputs))
-    return outputs
+
+    return outputs, filtered_data, filtered_indices
 
 
 def load_model_and_data():
@@ -170,12 +201,19 @@ def load_model_and_data():
 
 def main():
     llm, sampling_params, prompts, data = load_model_and_data()
-    outputs = batch_inference(llm, sampling_params, prompts)
-    for i, each in enumerate(data):
-        data["agent_cpt_dict"]["IASS_Score"] = outputs[i]
-    with open("../local_data/test_data_0731/sample_100_each_data_with_IASS.json", "w") as f:
-        f.write(json.dumps(data, indent=4))
+    outputs, filtered_data, filtered_indices = batch_inference(llm, sampling_params, prompts, data)
 
+    if outputs:
+        # 只处理成功生成的结果
+        for i, output in enumerate(outputs):
+            filtered_data[i]["agent_cpt_dict"]["IASS_Score"] = output.outputs[0].text
+
+        with open("../local_data/test_data_0731/sample_100_each_data_with_IASS.json", "w") as f:
+            f.write(json.dumps(filtered_data, indent=4))
+
+        # 可选：保存被过滤掉的数据索引
+        with open("../local_data/test_data_0731/filtered_indices.json", "w") as f:
+            f.write(json.dumps({"filtered_indices": filtered_indices}, indent=4))
 
 
 if __name__ == "__main__":
