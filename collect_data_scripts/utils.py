@@ -25,7 +25,7 @@ def get_all_jsonl_files(path_string):
                 if os.path.isdir(directory):
                     for root, _, files in os.walk(directory):
                         for file in files:
-                            if file.endswith('.jsonl'):
+                            if file.endswith('.jsonl') or file.endswith('.txt'):
                                 all_jsonl_files.append(os.path.join(root, file))
 
     return all_jsonl_files
