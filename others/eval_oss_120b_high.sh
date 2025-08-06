@@ -1,6 +1,8 @@
 #!/bin/bash
 
 export CUDA_VISIBLE_DEVICES=1
+export USE_FLASH_ATTN=0
+export FLASHINFER_ENABLE=0
 
 MODEL_PATH="openai/gpt-oss-120b"  # 替换为你的模型路径
 OUTPUT_FILE="outputs_gpt-oss-120b_high.json"        # 输出文件名
