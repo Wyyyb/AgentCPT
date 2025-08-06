@@ -15,3 +15,14 @@ export proxy="http://pac-internal.xaminim.com:3129" && export https_proxy=$proxy
 /minimax-dialogue/data/users/Dan/code/projects/m2_distribution/data/m2_cc_with_code_math_after_clean/plain/
 
 /minimax-dialogue/data/users/Dan/code/projects/m2_distribution/data/m2_cc_with_code_math_after_clean_after_clean/plain/batch_
+
+
+Qwen3-8B Scoring:
+
+原始prompts数量: 5659
+过滤后prompts数量: 5552
+Processed prompts: 100%|███████████████████████████████████████████████████| 5552/5552 [1:17:02<00:00,  1.20it/s, est. speed input: 5640.66 toks/s, output: 2629.67 toks/s]
+len(filtered_prompts): 5552
+len(outputs): 5552
+format_parse_count 134
+

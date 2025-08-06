@@ -1,1 +1,7 @@
 huggingface-cli upload ubowang/agent_cpt_0802 sample_100_each_data.json --repo-type dataset
+
+huggingface-cli upload ubowang/agent_cpt_0802 sample_100_each_data_with_IASS.json --repo-type dataset
+
+huggingface-cli upload ubowang/test_data_0804 test_0804.zip --repo-type dataset
+
+huggingface-cli upload ubowang/agent_cpt_0802 /minimax-dialogue/workspace/users/Dan/code/projects/m2_distribution/tmp/data_distribution_main.json --repo-type dataset

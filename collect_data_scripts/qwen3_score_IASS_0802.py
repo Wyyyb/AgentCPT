@@ -227,7 +227,7 @@ def main():
                 format_parse_count += 1
         print("format_parse_count", format_parse_count)
 
-        with open("../local_data/test_data_0731/sample_100_each_data_with_IASS.json", "w") as f:
+        with open("../local_data/test_data_0731/qwen3_sample_100_each_data_with_IASS.json", "w") as f:
             f.write(json.dumps(filtered_data, indent=4))
 
         # 可选：保存被过滤掉的数据索引
