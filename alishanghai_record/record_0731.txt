@@ -26,3 +26,4 @@ len(filtered_prompts): 5552
 len(outputs): 5552
 format_parse_count 134
 
+huggingface-cli download openai/gpt-oss-120b --include "original/*" --local-dir gpt-oss-120b/
